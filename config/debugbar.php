@@ -91,7 +91,7 @@ return [
         'log'             => true,  // Logs from Monolog (merged in messages if enabled)
         'db'              => true,  // Show database (PDO) queries and bindings
         'views'           => true,  // Views with their data
-        'route'           => true,  // Current route information
+        'route'           => true,  // Route information
         'laravel'         => false, // Laravel version and environment
         'events'          => false, // All events fired
         'default_request' => false, // Regular or special Symfony request logger
@@ -135,7 +135,8 @@ return [
             'data' => false,    //Note: Can slow down the application, because the data can be quite large..
         ],
         'route' => [
-            'label' => true  // show complete route on bar
+            'label' => true,  // show complete route on bar
+            'all'  => true,   // whether to display all routes
         ],
         'logs' => [
             'file' => null

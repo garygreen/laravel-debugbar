@@ -15,6 +15,8 @@ class AssetController extends BaseController
 
         $content = $renderer->dumpAssetsToString('js');
 
+        $content .= file_get_contents(__DIR__ . '/../Resources/route-widget.js');
+
         $response = new Response(
             $content, 200, [
                 'Content-Type' => 'text/javascript',

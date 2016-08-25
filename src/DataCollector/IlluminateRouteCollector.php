@@ -33,6 +33,11 @@ class IlluminateRouteCollector extends DataCollector implements Renderable
      */
     public function collect()
     {
+        if (Config::get('debugbar.options.route.all', false))
+        {
+            return $this->getAllRouteInformation();
+        }
+
         $route = $this->router->current();
         return $this->getRouteInformation($route);
     }
@@ -84,6 +89,30 @@ class IlluminateRouteCollector extends DataCollector implements Renderable
     }
 
     /**
+     * Get all route information.
+     *
+     * @return array
+     */
+    protected function getAllRouteInformation()
+    {
+        $result = [
+            'routes' => [],
+            'count' => $this->router->getRoutes()->count()
+        ];
+
+        foreach ($this->router->getRoutes() as $route) {
+            $result['routes'][] = [
+                'methods' => $route->methods(),
+                'uri' => $route->uri(),
+                'name' => $route->getName(),
+                'action' => $route->getActionName()
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
      * Get middleware
      *
      * @param  \Illuminate\Routing\Route $route
@@ -109,6 +138,21 @@ class IlluminateRouteCollector extends DataCollector implements Renderable
      */
     public function getWidgets()
     {
+        if (Config::get('debugbar.options.route.all', false)) {
+            return [
+                "route" => [
+                    "icon" => "share",
+                    "widget" => "PhpDebugBar.Widgets.RouteWidget",
+                    "map" => "route.routes",
+                    "default" => "{}"
+                ],
+                "route:badge" => [
+                    "map" => "route.count",
+                    "default" => ""
+                ],
+            ];
+        }
+
         $widgets = [
             "route" => [
                 "icon" => "share",
